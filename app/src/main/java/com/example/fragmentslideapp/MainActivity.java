@@ -9,6 +9,11 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MainActivity extends FragmentActivity {
 
@@ -18,11 +23,20 @@ public class MainActivity extends FragmentActivity {
 
     private PagerAdapter mPagerAdapter;
 
+    private List<Book> bookList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        bookList = new LinkedList<Book>();
+        bookList.add(new Book("Lord of the rings","J.R.R. Tolkiesn","Fantasy",""));
+        bookList.add(new Book("Dawnfall of the Roman Empire","E. Gibbon","History",""));
+        bookList.add(new Book("American Gods","N. Geilman","Fantasy",""));
+        bookList.add(new Book("Moving Pictures","T. Prattchet","Fantasy",""));
+        bookList.add(new Book("Thinking in Java","B. Eckel","IT",""));
 
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -39,12 +53,14 @@ public class MainActivity extends FragmentActivity {
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            return new ScreenSlidePageFragment();
+            Book book = bookList.get(position);
+            return new ScreenSlidePageFragment(book);
         }
 
         @Override
         public int getCount() {
             return NUM_PAGES;
         }
+
     }
 }
