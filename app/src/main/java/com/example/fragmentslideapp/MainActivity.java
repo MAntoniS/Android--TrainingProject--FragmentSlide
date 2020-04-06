@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -25,22 +26,24 @@ public class MainActivity extends FragmentActivity {
 
     private List<Book> bookList;
 
+    private int mPosition;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bookList = new LinkedList<Book>();
-        bookList.add(new Book("Lord of the rings","J.R.R. Tolkiesn","Fantasy",""));
-        bookList.add(new Book("Dawnfall of the Roman Empire","E. Gibbon","History",""));
-        bookList.add(new Book("American Gods","N. Geilman","Fantasy",""));
-        bookList.add(new Book("Moving Pictures","T. Prattchet","Fantasy",""));
-        bookList.add(new Book("Thinking in Java","B. Eckel","IT",""));
+        Bundle bundle = getIntent().getExtras();
+
+        bookList = (ArrayList) bundle.getSerializable("BOOK_LIST");
+
+        mPosition = bundle.getInt("POSITION");
 
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+        mPager.setCurrentItem(mPosition);
 
 
     }
